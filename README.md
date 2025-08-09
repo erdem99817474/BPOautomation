@@ -1,23 +1,18 @@
-# Simple Site
+# Function Gallery
 
-A minimal, responsive starter site using plain HTML, CSS, and JavaScript.
+A minimal, black UI site to manage small UI/JS functions/snippets. Each item has a description and two actions:
+- Code: view the source with a copy-to-clipboard button
+- Preview: run the snippet in a sandboxed iframe
 
-## Quick start
+## Use
+- Add a new function at the top form (Name, Description, Code)
+- Click Code to view and copy
+- Click Preview to see it run
+- Click ✎ to edit; 🗑 to delete
+- Everything is saved to `localStorage` under `function-gallery-items`
 
-- Open `index.html` directly in your browser, or
-- Serve the folder locally (enables fetches, routing, etc.). Examples:
-
+## Run locally
 ```bash
-# Using Python 3
-python3 -m http.server 8000
-
-# Using Node (install serve if you don't have it)
-npx --yes serve -l 8000
+python3 -m http.server 8000 --directory /workspace
 ```
-
-Then visit `http://localhost:8000`.
-
-## Customize
-- Edit `index.html` to change content
-- Edit `styles.css` for colors/layout
-- Edit `script.js` for behavior
+Open `http://localhost:8000`.

@@ -3,91 +3,85 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="A minimal, responsive starter site." />
-  <title>Simple Site</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230065ff'/%3E%3Ctext x='50' y='60' font-size='60' text-anchor='middle' fill='white' font-family='Arial, Helvetica, sans-serif'%3ES%3C/text%3E%3C/svg%3E" />
+  <meta name="description" content="A minimal, black UI function gallery with code and preview." />
+  <title>Function Gallery</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a84ff'/%3E%3Ctext x='50' y='60' font-size='60' text-anchor='middle' fill='white' font-family='-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial'%3EF%3C/text%3E%3C/svg%3E" />
   <link rel="stylesheet" href="styles.css" />
   <script defer src="script.js"></script>
 </head>
 <body>
-  <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
     <div class="container header-inner">
-      <div class="brand">SimpleSite</div>
+      <div class="brand">Function Gallery</div>
       <nav class="nav">
-        <a href="#features">Features</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌗</button>
+        <button id="newItemButton" class="button small" aria-controls="editorPanel" aria-expanded="false">+ New</button>
       </nav>
     </div>
   </header>
 
-  <main id="main">
-    <section class="hero">
-      <div class="container hero-inner">
-        <h1>Build something simple, fast.</h1>
-        <p>A clean starting point for your next idea. Responsive by default, accessible, and easily customizable.</p>
-        <div class="cta">
-          <a class="button" href="#features">Explore Features</a>
-          <a class="button button-secondary" href="#contact">Get in touch</a>
+  <main id="main" class="container">
+    <section id="editorPanel" class="panel">
+      <h2 id="editorTitle">Add Function</h2>
+      <form id="editorForm" class="form" novalidate>
+        <input type="hidden" id="itemId" />
+        <div class="field">
+          <label for="itemName">Name</label>
+          <input id="itemName" name="name" type="text" required placeholder="e.g., Counter Button" />
         </div>
-      </div>
-    </section>
-
-    <section id="features" class="section">
-      <div class="container">
-        <h2>Features</h2>
-        <div class="grid">
-          <article class="card">
-            <h3>Responsive</h3>
-            <p>Looks great on mobile, tablet, and desktop without extra work.</p>
-          </article>
-          <article class="card">
-            <h3>Accessible</h3>
-            <p>Semantic HTML, focus styles, and reduced motion considerations.</p>
-          </article>
-          <article class="card">
-            <h3>Customizable</h3>
-            <p>Theme variables let you quickly adapt colors and spacing.</p>
-          </article>
+        <div class="field">
+          <label for="itemDesc">Description</label>
+          <input id="itemDesc" name="description" type="text" required placeholder="Short description" />
         </div>
-      </div>
+        <div class="field">
+          <label for="itemCode">Code (HTML/CSS/JS)</label>
+          <textarea id="itemCode" name="code" rows="10" required placeholder="Paste a runnable snippet (HTML/CSS/JS). For example: \n\n<button id='btn'>Click</button>\n<script>document.getElementById('btn').onclick=()=>alert('Hi')</script>"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="button">Save</button>
+          <button type="button" id="cancelEdit" class="button secondary">Cancel</button>
+        </div>
+        <p id="editorStatus" class="form-status" role="status" aria-live="polite"></p>
+      </form>
     </section>
 
-    <section id="about" class="section alt">
-      <div class="container">
-        <h2>About</h2>
-        <p>This simple site is a tiny scaffold: no frameworks, just vanilla HTML, CSS, and JS so you can focus on content and iterate fast.</p>
-      </div>
-    </section>
-
-    <section id="contact" class="section">
-      <div class="container">
-        <h2>Contact</h2>
-        <form id="contactForm" class="form" novalidate>
-          <div class="field">
-            <label for="name">Name</label>
-            <input id="name" name="name" type="text" required placeholder="Jane Doe" />
-          </div>
-          <div class="field">
-            <label for="email">Email</label>
-            <input id="email" name="email" type="email" required placeholder="jane@example.com" />
-          </div>
-          <div class="field">
-            <label for="message">Message</label>
-            <textarea id="message" name="message" rows="4" required placeholder="How can we help?"></textarea>
-          </div>
-          <button class="button" type="submit">Send</button>
-          <p id="formStatus" class="form-status" role="status" aria-live="polite"></p>
-        </form>
-      </div>
+    <section class="list-section">
+      <h2>Functions</h2>
+      <div id="itemsEmpty" class="empty">No functions yet. Add one to get started.</div>
+      <ul id="itemsList" class="items"></ul>
     </section>
   </main>
 
+  <template id="itemTemplate">
+    <li class="item" data-id="">
+      <div class="item-row">
+        <div class="item-meta">
+          <h3 class="item-name"></h3>
+          <p class="item-desc"></p>
+        </div>
+        <div class="item-actions">
+          <button class="button small hollow item-code-btn">Code</button>
+          <button class="button small hollow item-preview-btn">Preview</button>
+          <button class="icon-button item-edit-btn" title="Edit" aria-label="Edit">✎</button>
+          <button class="icon-button item-delete-btn" title="Delete" aria-label="Delete">🗑</button>
+        </div>
+      </div>
+      <div class="item-panels">
+        <div class="code-panel is-hidden">
+          <div class="code-toolbar">
+            <button class="button xsmall copy-btn">Copy</button>
+          </div>
+          <pre class="code-block"><code></code></pre>
+        </div>
+        <div class="preview-panel is-hidden">
+          <iframe class="preview-frame" title="Preview" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
+        </div>
+      </div>
+    </li>
+  </template>
+
   <footer class="site-footer">
     <div class="container">
-      <p>© <span id="year"></span> SimpleSite. All rights reserved.</p>
+      <p>© <span id="year"></span> Function Gallery</p>
     </div>
   </footer>
 </body>
