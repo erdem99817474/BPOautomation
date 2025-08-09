@@ -1,0 +1,68 @@
+/* Cursor defaults for interactive elements */
+button,
+[role="button"],
+.cursor-pointer,
+.btn,
+[data-action="add-function"],
+[data-action="code"],
+[data-action="preview"],
+[data-action="edit"],
+[data-action="copy"] {
+  cursor: pointer;
+}
+
+input[type="text"],
+input[type="search"],
+input[type="email"],
+input[type="password"],
+textarea,
+.cursor-text {
+  cursor: text;
+}
+
+/* Custom cursor follower */
+:root {
+  /* Tailwind-like palette */
+  --cursor-color-default: #9CA3AF; /* gray-400 */
+  --cursor-color-clickable: #6366F1; /* indigo-500 */
+  --cursor-color-text: #6B7280; /* gray-500 */
+  --cursor-size: 12px;
+  --cursor-scale-default: 1;
+  --cursor-scale-hover: 1.6;
+}
+
+.cursor-fx {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--cursor-size);
+  height: var(--cursor-size);
+  border-radius: 9999px;
+  background-color: var(--cursor-color-default);
+  opacity: 0.85;
+  transform: translate3d(var(--cursor-x, -100px), var(--cursor-y, -100px), 0)
+    translate(-50%, -50%)
+    scale(var(--cursor-scale, var(--cursor-scale-default)));
+  transition: background-color 160ms ease, opacity 160ms ease, transform 160ms ease;
+  will-change: transform;
+  pointer-events: none;
+  z-index: 99999;
+}
+
+/* Hover states influenced by JS via data attributes on <html> */
+html[data-cursor="clickable"] .cursor-fx {
+  background-color: var(--cursor-color-clickable);
+  --cursor-scale: var(--cursor-scale-hover);
+}
+
+html[data-cursor="text"] .cursor-fx {
+  background-color: var(--cursor-color-text);
+  --cursor-scale: var(--cursor-scale-default);
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .cursor-fx {
+    transition: none;
+  }
+}
